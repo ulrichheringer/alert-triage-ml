@@ -1,12 +1,12 @@
 # alert-triage-ml
 
-Agrupa logs parecidos com K-Means e sinaliza alertas possivelmente ruidosos com classificação supervisionada.
+Groups similar logs with K-Means and classifies alerts that may be noisy.
 
-## Dados
+## Data
 
-O pipeline gera dados sintéticos determinísticos localmente, identificados como sintéticos em `pipeline.py`. Nenhum dado privado ou download externo é necessário. A divisão e a semente de avaliação são descritas junto às métricas abaixo.
+Deterministic synthetic data is generated locally in `pipeline.py`. No private data or external download is required.
 
-## Instalação e execução
+## Install and run
 
 ```bash
 python -m venv .venv
@@ -18,8 +18,10 @@ python cli.py train --model model.joblib
 python cli.py predict --model model.joblib
 ```
 
-## Métricas obtidas
+## Evaluation results
 
-Seed 42: holdout de logs agrupado por template — silhouette cosine **0,7701** (175 logs); holdout da classificação de ruído — acurácia **0,8533**, F1 **0,8667**, ROC AUC **0,9319** (300 alertas). O rótulo “ruidoso” é derivado de regras sintéticas, então as métricas não medem incidentes reais.
+With seed 42, log clustering reached a cosine silhouette score of 0.7701 on 175 held-out logs. On a separate 300-alert holdout, noisy-alert classification reached 0.8533 accuracy, 0.8667 F1, and 0.9319 ROC AUC. The noisy-alert labels come from synthetic rules, so these scores do not reflect real incidents.
 
-Limitação: dados e regras de geração simplificados; antes de uso real, substitua-os por dados com licença e proveniência adequadas e valide fora da amostra.
+## Limitations
+
+The generated logs and labels are simplified. Real use would require representative incident and alert history, with noise labels reviewed against actual operator outcomes.
