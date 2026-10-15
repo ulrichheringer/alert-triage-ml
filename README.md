@@ -20,6 +20,6 @@ python cli.py predict --model model.joblib
 
 ## Métricas obtidas
 
-Seed 42: holdout de logs — silhouette cosine **0,1975**; holdout da classificação de ruído — acurácia **0,8533**, F1 **0,8667**, ROC AUC **0,9319** (300 alertas). Silhouette baixo indica separação fraca entre os grupos neste corpus. O rótulo “ruidoso” é derivado de regras sintéticas, então as métricas não medem incidentes reais.
+Seed 42: holdout de logs agrupado por template — silhouette cosine **0,7701** (175 logs); holdout da classificação de ruído — acurácia **0,8533**, F1 **0,8667**, ROC AUC **0,9319** (300 alertas). O rótulo “ruidoso” é derivado de regras sintéticas, então as métricas não medem incidentes reais.
 
 Limitação: dados e regras de geração simplificados; antes de uso real, substitua-os por dados com licença e proveniência adequadas e valide fora da amostra.

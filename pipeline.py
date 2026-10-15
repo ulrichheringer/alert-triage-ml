@@ -7,7 +7,7 @@ from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, silhouette_score
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GroupShuffleSplit, train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -81,7 +81,10 @@ def predict(model, payload):
 
 def evaluate(seed=SEED):
     texts = _logs()
-    logs_train, logs_test = train_test_split(texts, test_size=0.25, random_state=seed)
+    groups = [f"template-{j}" for _ in range(25) for j, _ in enumerate(LOG_TEMPLATES)]
+    train_idx, test_idx = next(GroupShuffleSplit(n_splits=1, test_size=0.25, random_state=seed).split(texts, groups=groups))
+    logs_train = [texts[i] for i in train_idx]
+    logs_test = [texts[i] for i in test_idx]
     cluster = _clusterer(seed)
     cluster["kmeans"].fit(cluster["vectorizer"].fit_transform(logs_train))
     test_matrix = cluster["vectorizer"].transform(logs_test)
